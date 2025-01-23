@@ -1,0 +1,312 @@
+openapi: 3.0.3
+info:
+  title: 'My API Documentation'
+  description: 'Documentation for API'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/tasks:
+    get:
+      summary: 'Get a list of tasks.'
+      operationId: getAListOfTasks
+      description: "Returns a list of all tasks.\nYou can filter tasks by completion status."
+      parameters:
+        -
+          in: query
+          name: status
+          description: 'Filter by completion status.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by completion status.'
+            example: true
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    name: 'Test Task'
+                    description: 'This is a test task.'
+                    is_completed: false
+                    created_at: '2025-01-23T17:28:10.000000Z'
+                    updated_at: '2025-01-23T17:28:10.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Create a new task.'
+      operationId: createANewTask
+      description: 'Creates a new task in the system.'
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'Test Task'
+                  description: 'This is a test task.'
+                  is_completed: false
+                  created_at: '2025-01-23T17:28:10.000000Z'
+                  updated_at: '2025-01-23T17:28:10.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'Test Task'
+                  description:
+                    type: string
+                    example: 'This is a test task.'
+                  is_completed:
+                    type: boolean
+                    example: false
+                  created_at:
+                    type: string
+                    example: '2025-01-23T17:28:10.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-01-23T17:28:10.000000Z'
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the task.'
+                  example: 'Test Task'
+                  nullable: false
+                description:
+                  type: string
+                  description: 'A description of the task.'
+                  example: 'This is a test task.'
+                  nullable: false
+              required:
+                - name
+                - description
+      security: []
+  '/api/tasks/{task_id}':
+    put:
+      summary: 'Update an existing task.'
+      operationId: updateAnExistingTask
+      description: "Updates the specified task's details."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'Updated Task Name'
+                  description: 'Updated Task Description'
+                  is_completed: true
+                  created_at: '2025-01-23T17:28:10.000000Z'
+                  updated_at: '2025-01-23T17:35:10.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'Updated Task Name'
+                  description:
+                    type: string
+                    example: 'Updated Task Description'
+                  is_completed:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    example: '2025-01-23T17:28:10.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-01-23T17:35:10.000000Z'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the task.'
+                  example: 'Updated Task Name'
+                  nullable: false
+                description:
+                  type: string
+                  description: 'The description of the task.'
+                  example: 'Updated Task Description'
+                  nullable: false
+                is_completed:
+                  type: boolean
+                  description: 'The completion status of the task.'
+                  example: true
+                  nullable: false
+      security: []
+    delete:
+      summary: 'Delete a task.'
+      operationId: deleteATask
+      description: 'Deletes the specified task from the system.'
+      parameters: []
+      responses:
+        204:
+          description: ''
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task_id
+        description: 'The ID of the task.'
+        example: 3
+        required: true
+        schema:
+          type: integer
+  '/api/tasks/{task_id}/toggle':
+    patch:
+      summary: 'Toggle task completion status.'
+      operationId: toggleTaskCompletionStatus
+      description: "Switches the task's completion status between completed and not completed."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'Test Task'
+                  description: 'This is a test task.'
+                  is_completed: true
+                  created_at: '2025-01-23T17:28:10.000000Z'
+                  updated_at: '2025-01-23T17:40:10.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'Test Task'
+                  description:
+                    type: string
+                    example: 'This is a test task.'
+                  is_completed:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    example: '2025-01-23T17:28:10.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-01-23T17:40:10.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task_id
+        description: 'The ID of the task.'
+        example: 3
+        required: true
+        schema:
+          type: integer
+  /api/register:
+    post:
+      summary: ''
+      operationId: postApiRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: vihcmoigjmcovnd
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: hill.davonte@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: V./>R`e(
+                  nullable: false
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/login:
+    post:
+      summary: ''
+      operationId: postApiLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: nicolas.arden@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'fBJ0a%v&pqdiJkr['
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
